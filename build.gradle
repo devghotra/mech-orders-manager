@@ -36,10 +36,6 @@ dependencies {
 }
 
 appengine {  // App Engine tasks configuration
-    run {      // local (dev_appserver) configuration (standard environments only)
-        port = 8080                 // default
-    }
-
     deploy {   // deploy configuration
         stopPreviousVersion = true  // default - stop the current version
         promote = true              // default - & make this the current version
