@@ -9,12 +9,12 @@ import java.util.List;
 
 public interface OrdersRepository extends CrudRepository<Orders, Long> {
 
-    List<Orders> findByEquipmentNumberAndOrderDateBetween(String equimentNumber, Date from, Date to);
+    List<Orders> findByEquipmentNumberAndOrderDateBetweenOrderByIdDesc(String equimentNumber, Date from, Date to);
 
-    List<Orders> findByMechanicNameAndOrderDateBetween(String mechanicName, Date from, Date to);
+    List<Orders> findByMechanicNameAndOrderDateBetweenOrderByIdDesc(String mechanicName, Date from, Date to);
 
-    List<Orders> findByEquipmentNumberAndMechanicNameAndOrderDateBetween(String equimentNumber, String mechanicName, Date from, Date to);
+    List<Orders> findByEquipmentNumberAndMechanicNameAndOrderDateBetweenOrderByIdDesc(String equimentNumber, String mechanicName, Date from, Date to);
 
-    List<Orders> findByOrderDateBetween(Date from, Date to);
+    List<Orders> findByOrderDateBetweenOrderByIdDesc(Date from, Date to);
 
 }

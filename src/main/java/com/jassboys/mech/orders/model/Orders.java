@@ -60,6 +60,9 @@ public class Orders implements Serializable {
     @Column(name = "lubricant_price")
     private Float lubricantPrice;
 
+    @Column(name = "total_charges")
+    private Float totalCharges;
+
     @Column(name = "notes")
     private String notes;
 

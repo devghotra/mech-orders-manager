@@ -136,18 +136,18 @@ public class OrdersService {
 		}
 
 		if(from == null){
-			cal.add(Calendar.YEAR, -1);
+			cal.add(Calendar.MONTH, -1);
 			from = cal.getTime();
 		}
 
 		if(equipmentNumber != null && mechanicName != null){
-			return ordersRepo.findByEquipmentNumberAndMechanicNameAndOrderDateBetween(equipmentNumber, mechanicName, from, to);
+			return ordersRepo.findByEquipmentNumberAndMechanicNameAndOrderDateBetweenOrderByIdDesc(equipmentNumber, mechanicName, from, to);
 		} else if(equipmentNumber != null){
-			return ordersRepo.findByEquipmentNumberAndOrderDateBetween(equipmentNumber, from, to);
+			return ordersRepo.findByEquipmentNumberAndOrderDateBetweenOrderByIdDesc(equipmentNumber, from, to);
 		} else if(mechanicName != null){
-			return ordersRepo.findByMechanicNameAndOrderDateBetween(mechanicName, from , to);
+			return ordersRepo.findByMechanicNameAndOrderDateBetweenOrderByIdDesc(mechanicName, from , to);
 		} else{
-			return ordersRepo.findByOrderDateBetween(from, to);
+			return ordersRepo.findByOrderDateBetweenOrderByIdDesc(from, to);
 		}
 	}
 

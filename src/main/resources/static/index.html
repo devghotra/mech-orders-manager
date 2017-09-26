@@ -23,11 +23,9 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-<link rel="stylesheet"
-	href="http://yui.yahooapis.com/pure/0.4.2/base-min.css">
+<link rel="stylesheet" href="css/base-min.css">
 
-<link rel="stylesheet"
-	href="http://yui.yahooapis.com/pure/0.4.2/pure-min.css">
+<link rel="stylesheet" href="css/pure-min.css">
 
 <link rel="stylesheet" href="css/baby-blue.css">
 
@@ -261,8 +259,8 @@
 												<option value="">Select</option>
 											</select>
 											<label>Labor</label>
-											<input type="text" placeholder="Number of Hours" name="laborHours" id="laborHours">
-											<input type="text" placeholder="$ Rate per hour" name="laborHourlyRate" id="laborHourlyRate">
+											<input type="number" placeholder="Number of Hours" name="laborHours" id="laborHours">
+											<input type="number" placeholder="$ Rate per hour" name="laborHourlyRate" id="laborHourlyRate">
 										</div>
 									</div>
 								</div>
@@ -271,20 +269,20 @@
 									<div class="col-md-2">
 										<div class="form-group">
 											<label>Tyre Type</label>
-											<select class="form-control" name="tyreType" id="tyreType" required >
+											<select class="form-control" name="tyreType" id="tyreType" >
 												<option value="">Select</option>
 											</select>
 											<label>Number of Tyres</label>
-											<input type="text" name="numOfTyres" id="numOfTyres" />
+											<input type="number" name="numOfTyres" id="numOfTyres" />
 											<label>Tyre Price</label>
-											<input type="text" name="tyrePrice" id="tyrePrice" />
+											<input type="number" name="tyrePrice" id="tyrePrice" />
 										</div>
 									</div>
 
 									<div class="col-md-2 col-md-offset-2">
 										<div class="form-group">
 											<label>Part Cost</label>
-											<input type="text" name="partCost" id="partCost" />
+											<input type="number" name="partCost" id="partCost" />
 											<label>Part Description</label>
 											<textarea rows="2" cols="50" id="partDescription" name="partDescription" maxlength="100"></textarea>
 										</div>
@@ -293,7 +291,7 @@
 									<div class="col-md-2 col-md-offset-2">
 										<div class="form-group">
 											<label>Lubricant Type</label>
-											<select class="form-control" name="lubricantType" id="lubricantType" required>
+											<select class="form-control" name="lubricantType" id="lubricantType">
 												<option value="">Select</option>
 												<option value="Engine">Engine Oil</option>
 												<option value="Transmission">Transmission Oil</option>
@@ -302,27 +300,34 @@
 												<option value="Gear">Gear Oil</option>
 											</select>
 											<label>Quantity</label>
-											<input type="text" name="lubricantQuantity" id="lubricantQuantity" placeholder="Number of Gallons"/>
+											<input type="number" name="lubricantQuantity" id="lubricantQuantity" placeholder="Number of Gallons"/>
 											<label>Price</label>
-											<input type="text" name="lubricantPrice" id="lubricantPrice" placeholder="Price per Gallon"/>
+											<input type="number" name="lubricantPrice" id="lubricantPrice" placeholder="Price per Gallon"/>
 										</div>
 									</div>
 								</div>
 
 								<div class="row">
-									<div class="col-md-6">
+									<div class="col-md-2">
 										<div class="form-group">
-											<label>Notes</label>
-											<textarea rows="3" cols="100" id="notes" name="notes" maxlength="200"></textarea>
+											<label>Total Charges</label>
+											<input type="number" name="totalCharges" id="totalCharges" placeholder="Click here to calculate" required/>
 										</div>
 									</div>
-									<div class="col-md-1 col-md-offset-1">
+									<div class="col-md-6 col-md-offset-2">
 										<div class="form-group">
-											<label>&nbsp;</label>
-											<button type="submit" class="btn btn-success btn-block" id="submitOrderBtn">Submit</button>
-											<label>&nbsp;</label>
-											<button type="reset" class="btn btn-danger btn-block" id="resetBtn">Reset&nbsp;</button>
+											<label>Notes</label>
+											<textarea rows="3" cols="90" id="notes" name="notes" maxlength="200"></textarea>
 										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-1 col-md-offset-8">
+										<button type="submit" class="btn btn-success btn-block" id="submitOrderBtn">Submit</button>
+									</div>
+									<div class="col-md-1">
+										<button type="reset" class="btn btn-danger btn-block" id="resetBtn">Reset&nbsp;</button>
 									</div>
 								</div>
 							</fieldset>
@@ -372,8 +377,8 @@
 													<option value="">Select</option>
 												</select>
 												<label>Labor</label>
-												<input type="text" placeholder="Number of Hours" name="laborHours" id="laborHours" disabled>
-												<input type="text" placeholder="$ Rate per hour" name="laborHourlyRate" id="laborHourlyRate" disabled>
+												<input type="number" placeholder="Number of Hours" name="laborHours" id="laborHours" disabled>
+												<input type="number" placeholder="$ Rate per hour" name="laborHourlyRate" id="laborHourlyRate" disabled>
 											</div>
 										</div>
 									</div>
@@ -382,20 +387,20 @@
 										<div class="col-md-2">
 											<div class="form-group">
 												<label>Tyre Type</label>
-												<select class="form-control" name="tyreType" id="tyreType" required disabled>
+												<select class="form-control" name="tyreType" id="tyreType" disabled>
 													<option value="">Select</option>
 												</select>
 												<label>Number of Tyres</label>
-												<input type="text" name="numOfTyres" id="numOfTyres" disabled/>
+												<input type="number" name="numOfTyres" id="numOfTyres" disabled/>
 												<label>Tyre Price</label>
-												<input type="text" name="tyrePrice" id="tyrePrice" disabled />
+												<input type="number" name="tyrePrice" id="tyrePrice" disabled />
 											</div>
 										</div>
 
 										<div class="col-md-2 col-md-offset-2">
 											<div class="form-group">
 												<label>Part Cost</label>
-												<input type="text" name="partCost" id="partCost" disabled/>
+												<input type="number" name="partCost" id="partCost" disabled/>
 												<label>Part Description</label>
 												<textarea rows="2" cols="50" id="partDescription" name="partDescription" maxlength="100" disabled></textarea>
 											</div>
@@ -404,7 +409,7 @@
 										<div class="col-md-2 col-md-offset-2">
 											<div class="form-group">
 												<label>Lubricant Type</label>
-												<select class="form-control" name="lubricantType" id="lubricantType" required disabled>
+												<select class="form-control" name="lubricantType" id="lubricantType" disabled>
 													<option value="">Select</option>
 													<option value="Engine">Engine Oil</option>
 													<option value="Transmission">Transmission Oil</option>
@@ -413,35 +418,43 @@
 													<option value="Gear">Gear Oil</option>
 												</select>
 												<label>Quantity</label>
-												<input type="text" name="lubricantQuantity" id="lubricantQuantity" placeholder="Number of Gallons" disabled/>
+												<input type="number" name="lubricantQuantity" id="lubricantQuantity" placeholder="Number of Gallons" disabled/>
 												<label>Price</label>
-												<input type="text" name="lubricantPrice" id="lubricantPrice" placeholder="Price per Gallon" disabled/>
+												<input type="number" name="lubricantPrice" id="lubricantPrice" placeholder="Price per Gallon" disabled/>
 											</div>
 										</div>
 									</div>
 
 									<div class="row">
-										<div class="col-md-6">
+										<div class="col-md-2">
+											<div class="form-group">
+												<label>Total Charges</label>
+												<input type="number" name="totalCharges" id="totalCharges" placeholder="Click here to calculate" required/>
+											</div>
+										</div>
+										<div class="col-md-6 col-md-offset-2">
 											<div class="form-group">
 												<label>Notes</label>
-												<textarea rows="3" cols="100" id="notes" name="notes" maxlength="200" disabled></textarea>
+												<textarea rows="3" cols="90" id="notes" name="notes" maxlength="200"></textarea>
 											</div>
 										</div>
-										<div class="col-md-1 col-md-offset-1">
-											<div class="form-group">
-												<label>&nbsp;</label>
-												<button type="button" class="btn btn-primary btn-block" id="editOrderBtn">Edit</button>
-												<label>&nbsp;</label>
-												<button type="button" class="btn btn-danger btn-block" id="deleteOrderBtn">Delete</button>
-											</div>
+									</div>
+
+									<div class="row">
+										<div class="col-md-1 col-md-offset-8">
+											<button type="button" class="btn btn-primary btn-block" id="editOrderBtn">Edit</button>
 										</div>
 										<div class="col-md-1">
-											<div class="form-group">
-												<label>&nbsp;</label>
-												<button type="button" class="btn btn-warning btn-block" id="cancelEditBtn" style="display:none;">Cancel</button>
-												<label>&nbsp;</label>
-												<button type="submit" class="btn btn-success btn-block" id="saveOrderBtn" style="display:none;">Save</button>
-											</div>
+											<button type="button" class="btn btn-danger btn-block" id="deleteOrderBtn">Delete</button>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-md-1 col-md-offset-8">
+											<button type="button" class="btn btn-warning btn-block" id="cancelEditBtn" style="display:none;">Cancel</button>
+										</div>
+										<div class="col-md-1">
+											<button type="submit" class="btn btn-success btn-block" id="saveOrderBtn" style="display:none;">Save</button>
 										</div>
 									</div>
 								</fieldset>
@@ -452,39 +465,38 @@
 					<div class="tab-pane fade" id="report">
 						<form class="pure-form pure-form-stacked" id="searchOrderForm">
 							<fieldset>
-								<div class="pure-g-r">
-									<div class="pure-u-1 pure-u-med-1-4">
-										<label class="control-label">Order Date</label>
-										<fieldset class="pure-group">
-											<input type="text" class="pure-input-1-2" placeholder="From" name="fromOrderDate" id="fromOrderDate">
-											<input type="text" class="pure-input-1-2" placeholder="To" name="toOrderDate" id="toOrderDate">
-										</fieldset>
-									</div>
 
-									<div class="pure-u-1 pure-u-med-1-4">
-										<label>Equipment Number</label>
-										<select class="form-control" name="equipmentNumber" id="equipmentNumber" required >
-											<option value="">Select</option>
-										</select>
-
-										<label>Mechanic Name</label>
-										<select class="form-control" name="mechanicName" id="mechanicName" required >
-											<option value="">Select</option>
-										</select>
-									</div>
-
-									<div class="pure-u-1 pure-u-med-1-4">
-										<label>&nbsp;</label>
-										<div class="pure-g-r">
-											<div class="pure-u-1 pure-u-med-1-3">
-												<button type="button" class="button-success pure-button" id="searchOrderBtn" onclick=searchOrders()>Search</button>
-											</div>
-											<div class="pure-u-1 pure-u-med-1-3">
-												<button type="reset" class="button-secondary pure-button" id="resetBtn">&nbsp;Reset&nbsp;</button>
-											</div>
-											<div class="pure-u-1 pure-u-med-1-3"></div>
+								<div class="row">
+									<div class="col-md-3">
+										<div class="form-group">
+											<label class="control-label">Order Date</label>
+											<input type="text" placeholder="From" name="fromOrderDate" id="fromOrderDate">
+											<input type="text" placeholder="To" name="toOrderDate" id="toOrderDate">
 										</div>
 									</div>
+
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>Equipment Number</label>
+											<select class="form-control" name="equipmentNumber" id="equipmentNumber" required >
+												<option value="">Select</option>
+											</select>
+											<label>Mechanic Name</label>
+											<select class="form-control" name="mechanicName" id="mechanicName" required >
+												<option value="">Select</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="col-md-1 col-md-offset-1">
+										<div class="form-group">
+											<label>&nbsp;</label>
+											<label>&nbsp;</label>
+											<label>&nbsp;</label>
+											<button type="button" class="btn btn-primary" id="searchOrderBtn" onclick=searchOrders()>Search</button>
+										</div>
+									</div>
+
 								</div>
 							</fieldset>
 						</form>
@@ -499,7 +511,6 @@
 					<table class="table table-bordered table-striped table-hover" id="ordersTable" style="color: #333">
 						<thead style="background-color: darkgrey;">
 						<tr>
-							<th>Order <br/>ID</th>
 							<th style="width: 100px;">Order <br/>Date</th>
 							<th>Equipment <br/>Number</th>
 							<th>Equipment <br/>Type</th>
@@ -514,6 +525,8 @@
 							<th>Lubricant<br/>Type</th>
 							<th>Lubricant<br/>Quantity</th>
 							<th>Lubricant<br/>Price/Gallon</th>
+							<th>Total<br/>Charges</th>
+							<th>View/<br/>Edit</th>
 						</tr>
 						</thead>
 						<tbody></tbody>

@@ -292,6 +292,7 @@ $( "#loginForm" ).submit(function( event ) {
 });
 
 $( "#addOrderForm" ).submit(function( event ) {
+    calculateTotalChargesForNewOrder();
 	$("#errorMsg").hide();
 	$.ajax({
         url     : $(this).attr('action') + "?at="+authToken,
@@ -383,6 +384,7 @@ $( "#orderLookUpForm" ).submit(function( event ) {
 });
 
 $( "#viewEditOrderForm" ).submit(function( event ) {
+    calculateTotalChargesForEditOrder();
 	$("#errorMsg").hide();
 	$.ajax({
         url     : $(this).attr('action') + "?at="+authToken,
@@ -470,28 +472,38 @@ function loadOrders(){
 	});
 }
 
+function getValueOrEmpty(val){
+    if(val == null || val == undefined){
+        return "";
+    } else{
+        return val;
+    }
+}
+
 function loadOrdersDataTable(orderListArray, refresh){
 	var aaData="[";
 	for (var key in orderListArray){
-		var shift = orderListArray[key].shift == null ? "" : orderListArray[key].shift;
-		
 		aaData+=(key>0?",":"")+"[";
 	 
-		aaData+="\""+orderListArray[key].id+"\","+
-            	"\""+orderListArray[key].orderDate+"\","+
-            	"\""+orderListArray[key].equipmentNumber+"\","+
-				"\""+orderListArray[key].equipmentType+"\","+
-            	"\""+orderListArray[key].mechanicName+"\","+
-            	"\""+orderListArray[key].laborHours+"\","+
-            	"\""+orderListArray[key].laborHourlyRate+"\","+
-            	"\""+orderListArray[key].tyreType+"\","+
-            	"\""+orderListArray[key].numOfTyres+"\","+
-            	"\""+orderListArray[key].tyrePrice+"\","+
-            	"\""+orderListArray[key].partCost+"\","+
-            	"\""+orderListArray[key].partDescription+"\","+
-            	"\""+orderListArray[key].lubricantType+"\","+
-				"\""+orderListArray[key].lubricantQuantity+"\","+
-				"\""+orderListArray[key].lubricantPrice+"\"";
+		aaData+= "\""+getValueOrEmpty(orderListArray[key].orderDate)+"\","+
+            	"\""+getValueOrEmpty(orderListArray[key].equipmentNumber)+"\","+
+				"\""+getValueOrEmpty(orderListArray[key].equipmentType)+"\","+
+            	"\""+getValueOrEmpty(orderListArray[key].mechanicName)+"\","+
+            	"\""+getValueOrEmpty(orderListArray[key].laborHours)+"\","+
+            	"\""+getValueOrEmpty(orderListArray[key].laborHourlyRate)+"\","+
+            	"\""+getValueOrEmpty(orderListArray[key].tyreType)+"\","+
+            	"\""+getValueOrEmpty(orderListArray[key].numOfTyres)+"\","+
+            	"\""+getValueOrEmpty(orderListArray[key].tyrePrice)+"\","+
+            	"\""+getValueOrEmpty(orderListArray[key].partCost)+"\","+
+            	"\""+getValueOrEmpty(orderListArray[key].partDescription)+"\","+
+            	"\""+getValueOrEmpty(orderListArray[key].lubricantType)+"\","+
+				"\""+getValueOrEmpty(orderListArray[key].lubricantQuantity)+"\","+
+				"\""+getValueOrEmpty(orderListArray[key].lubricantPrice)+"\","+
+                "\""+getValueOrEmpty(orderListArray[key].totalCharges)+"\","+
+                "\"<a href='#' onclick='loadOrderFromLink("+orderListArray[key].id+"); return false;'><span class='glyphicon glyphicon-edit'></span></a>\"";
+		        // <a href="#"><span class="glyphicon glyphicon-edit"></span></a>
+                //"\"<button class='btn btn-primary' onclick='loadOrderFromLink("+orderListArray[key].id+")'>View</button>\"";
+                //"\""+orderListArray[key].id+"\"";
 
 	  aaData+="]";
 	}
@@ -510,7 +522,7 @@ function loadOrdersDataTable(orderListArray, refresh){
 	        "sDom": 'T<"clear">lfrtip',
 	        //"sPaginationType": "full_numbers",
 	        "bAutoWidth": false,
-	        "aaSorting": [[ 0, "desc" ]],
+            "aaSorting": [],
 	        "oLanguage": {
 	            "sLengthMenu": "Display _MENU_ orders per page"
 	        },
@@ -538,7 +550,7 @@ function loadOrderFromLink(orderId){
 }
 
 function loadOrder(orderId){
-	var url = "api/mech/orders?id="+orderId.trim()+"&at="+authToken;
+	var url = "api/mech/orders?id="+orderId+"&at="+authToken;
 
 	$.get( url, function( data ) {
 		if(data.responseCode == 200){
@@ -558,6 +570,7 @@ function loadOrder(orderId){
 			$('#viewEditOrderForm #lubricantType').val(data.order.lubricantType);
 			$('#viewEditOrderForm #lubricantQuantity').val(data.order.lubricantQuantity);
 			$('#viewEditOrderForm #lubricantPrice').val(data.order.lubricantPrice);
+            $('#viewEditOrderForm #totalCharges').val(data.order.totalCharges);
 			$('#viewEditOrderForm #notes').val(data.order.notes);
     	} else{
     		$(this).showErrorMessage(data.responseDescription);
@@ -634,3 +647,43 @@ function signOut()
 	sessionStorage.removeItem('authToken');
 	location.reload();
 };
+
+$( "#addOrderForm #totalCharges" ).focus(function() {
+    calculateTotalChargesForNewOrder();
+});
+
+function calculateTotalChargesForNewOrder(){
+    var laborHours = $( "#addOrderForm #laborHours" ).val().trim() == "" ? 0 : parseFloat($( "#addOrderForm #laborHours" ).val());
+    var laborHourlyRate = $( "#addOrderForm #laborHourlyRate" ).val().trim() == "" ? 0 : parseFloat($( "#addOrderForm #laborHourlyRate" ).val());
+
+    var numOfTyres = $( "#addOrderForm #numOfTyres" ).val().trim() == "" ? 0 : parseFloat($( "#addOrderForm #numOfTyres" ).val());
+    var tyrePrice = $( "#addOrderForm #tyrePrice" ).val().trim() == "" ? 0 : parseFloat($( "#addOrderForm #tyrePrice" ).val());
+
+    var partCost = $( "#addOrderForm #partCost" ).val().trim() == "" ? 0 : parseFloat($( "#addOrderForm #partCost" ).val());
+
+    var lubricantQuantity = $( "#addOrderForm #lubricantQuantity" ).val().trim() == "" ? 0 : parseFloat($( "#addOrderForm #lubricantQuantity" ).val());
+    var lubricantPrice = $( "#addOrderForm #lubricantPrice" ).val().trim() == "" ? 0 : parseFloat($( "#addOrderForm #lubricantPrice" ).val());
+
+    var total = laborHours*laborHourlyRate + numOfTyres*tyrePrice + partCost + lubricantQuantity*lubricantPrice;
+    $( "#addOrderForm #totalCharges" ).val(total.toFixed(2));
+}
+
+$( "#viewEditOrderForm #totalCharges" ).focus(function() {
+    calculateTotalChargesForEditOrder();
+});
+
+function calculateTotalChargesForEditOrder(){
+    var laborHours = $( "#viewEditOrderForm #laborHours" ).val().trim() == "" ? 0 : parseFloat($( "#viewEditOrderForm #laborHours" ).val());
+    var laborHourlyRate = $( "#viewEditOrderForm #laborHourlyRate" ).val().trim() == "" ? 0 : parseFloat($( "#viewEditOrderForm #laborHourlyRate" ).val());
+
+    var numOfTyres = $( "#viewEditOrderForm #numOfTyres" ).val().trim() == "" ? 0 : parseFloat($( "#viewEditOrderForm #numOfTyres" ).val());
+    var tyrePrice = $( "#viewEditOrderForm #tyrePrice" ).val().trim() == "" ? 0 : parseFloat($( "#viewEditOrderForm #tyrePrice" ).val());
+
+    var partCost = $( "#viewEditOrderForm #partCost" ).val().trim() == "" ? 0 : parseFloat($( "#viewEditOrderForm #partCost" ).val());
+
+    var lubricantQuantity = $( "#viewEditOrderForm #lubricantQuantity" ).val().trim() == "" ? 0 : parseFloat($( "#viewEditOrderForm #lubricantQuantity" ).val());
+    var lubricantPrice = $( "#viewEditOrderForm #lubricantPrice" ).val().trim() == "" ? 0 : parseFloat($( "#viewEditOrderForm #lubricantPrice" ).val());
+
+    var total = laborHours*laborHourlyRate + numOfTyres*tyrePrice + partCost + lubricantQuantity*lubricantPrice;
+    $( "#viewEditOrderForm #totalCharges" ).val(total.toFixed(2));
+}
