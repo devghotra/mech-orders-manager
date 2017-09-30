@@ -292,7 +292,6 @@ $( "#loginForm" ).submit(function( event ) {
 });
 
 $( "#addOrderForm" ).submit(function( event ) {
-    calculateTotalChargesForNewOrder();
 	$("#errorMsg").hide();
 	$.ajax({
         url     : $(this).attr('action') + "?at="+authToken,
@@ -384,7 +383,6 @@ $( "#orderLookUpForm" ).submit(function( event ) {
 });
 
 $( "#viewEditOrderForm" ).submit(function( event ) {
-    calculateTotalChargesForEditOrder();
 	$("#errorMsg").hide();
 	$.ajax({
         url     : $(this).attr('action') + "?at="+authToken,
@@ -501,9 +499,6 @@ function loadOrdersDataTable(orderListArray, refresh){
 				"\""+getValueOrEmpty(orderListArray[key].lubricantPrice)+"\","+
                 "\""+getValueOrEmpty(orderListArray[key].totalCharges)+"\","+
                 "\"<a href='#' onclick='loadOrderFromLink("+orderListArray[key].id+"); return false;'><span class='glyphicon glyphicon-edit'></span></a>\"";
-		        // <a href="#"><span class="glyphicon glyphicon-edit"></span></a>
-                //"\"<button class='btn btn-primary' onclick='loadOrderFromLink("+orderListArray[key].id+")'>View</button>\"";
-                //"\""+orderListArray[key].id+"\"";
 
 	  aaData+="]";
 	}

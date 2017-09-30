@@ -44,6 +44,7 @@ public class OrdersService {
 	}
 	
 	public ApiResponse login(String username, String password) throws Exception{
+		long start = System.currentTimeMillis();
 		User user = userRepo.findOne(username.toUpperCase());
 
 		if(user == null || !user.getPassword().equalsIgnoreCase(password)){
@@ -56,6 +57,8 @@ public class OrdersService {
 		ApiResponse response =  new ApiResponse();
 		response.setAuthToken(tokenVal);
 
+		System.out.println("OrdersService - exit login "+(System.currentTimeMillis() - start));
+
 		return response;
 	}
 
@@ -65,6 +68,7 @@ public class OrdersService {
 	}
 
 	public Map<String, List<String>> getLookupData(String authtokenVal){
+		long start = System.currentTimeMillis();
 		getAuthtokenDetails(authtokenVal);
 		Iterable<Lookup> lookupItr = lookupRepo.findAll();
 
@@ -81,6 +85,7 @@ public class OrdersService {
 				}
 		);
 
+		System.out.println("OrdersService - exit getLookupData "+(System.currentTimeMillis() - start));
 		return lookupDataMap;
 	}
 
@@ -96,16 +101,19 @@ public class OrdersService {
 	}
 
 	public Orders getOrder(Long orderId, String authtokenVal) {
+		long start = System.currentTimeMillis();
 		getAuthtokenDetails(authtokenVal);
 		Orders order = ordersRepo.findOne(orderId);
 
 		if(order == null)
 			throw new RuntimeException("Invalid Order Id "+orderId);
 
+		System.out.println("OrdersService - exit getOrder "+(System.currentTimeMillis() - start));
 		return order;
 	}
 
 	public void upsertOrder(Orders order, String authtokenVal) {
+		long start = System.currentTimeMillis();
 		String username = getAuthtokenDetails(authtokenVal);
 
 		if(order.getId() == null){
@@ -120,6 +128,7 @@ public class OrdersService {
 		}
 
 		ordersRepo.save(order);
+		System.out.println("OrdersService - exit upsertOrder "+(System.currentTimeMillis() - start));
 	}
 
 	public void deleteOrder(Long orderId, String authtokenVal){
@@ -128,6 +137,7 @@ public class OrdersService {
 	}
 
 	public List<Orders> searchOrders(String authtokenVal, String equipmentNumber, String mechanicName, Date from, Date to) {
+		long start = System.currentTimeMillis();
 		authtokenRepo.findOne(authtokenVal);
 
 		Calendar cal = Calendar.getInstance();
@@ -140,19 +150,23 @@ public class OrdersService {
 			from = cal.getTime();
 		}
 
+		List<Orders> orders;
 		if(equipmentNumber != null && mechanicName != null){
-			return ordersRepo.findByEquipmentNumberAndMechanicNameAndOrderDateBetweenOrderByIdDesc(equipmentNumber, mechanicName, from, to);
+			orders = ordersRepo.findByEquipmentNumberAndMechanicNameAndOrderDateBetweenOrderByIdDesc(equipmentNumber, mechanicName, from, to);
 		} else if(equipmentNumber != null){
-			return ordersRepo.findByEquipmentNumberAndOrderDateBetweenOrderByIdDesc(equipmentNumber, from, to);
+			orders = ordersRepo.findByEquipmentNumberAndOrderDateBetweenOrderByIdDesc(equipmentNumber, from, to);
 		} else if(mechanicName != null){
-			return ordersRepo.findByMechanicNameAndOrderDateBetweenOrderByIdDesc(mechanicName, from , to);
+			orders = ordersRepo.findByMechanicNameAndOrderDateBetweenOrderByIdDesc(mechanicName, from , to);
 		} else{
-			return ordersRepo.findByOrderDateBetweenOrderByIdDesc(from, to);
+			orders = ordersRepo.findByOrderDateBetweenOrderByIdDesc(from, to);
 		}
+
+		System.out.println("OrdersService - exit searchOrders "+(System.currentTimeMillis() - start));
+		return orders;
 	}
 
 	private String getAuthtokenDetails(String authtokenVal){
-
+		long start = System.currentTimeMillis();
 		Authtoken authtoken = authtokenRepo.findOne(authtokenVal);
 
 		if(authtoken == null)
@@ -168,6 +182,7 @@ public class OrdersService {
 		if(expirationTime > currentTimestamp){
 			authtoken.setModDateTime(new Date());
 			authtokenRepo.save(authtoken);
+			System.out.println("OrdersService - exit getAuthtokenDetails "+(System.currentTimeMillis() - start));
 			return username;
 		}
 		else {

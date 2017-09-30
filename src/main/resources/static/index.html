@@ -1,250 +1,368 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="author" content="">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
 
-<title>Jass Boys Orders Manager</title>
+	<title>Jass Boys Orders Manager</title>
 
-<!-- Bootstrap core CSS -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
+	<!-- Bootstrap core CSS -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
 
-<!-- Custom styles for this template -->
-<link href="css/dashboard.css" rel="stylesheet">
+	<!-- Custom styles for this template -->
+	<link href="css/dashboard.css" rel="stylesheet">
 
-<!-- Just for debugging purposes. Don't actually copy this line! -->
-<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+	<!-- Just for debugging purposes. Don't actually copy this line! -->
+	<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-<link rel="stylesheet" href="css/base-min.css">
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" href="css/base-min.css">
 
-<link rel="stylesheet" href="css/pure-min.css">
+	<link rel="stylesheet" href="css/pure-min.css">
 
-<link rel="stylesheet" href="css/baby-blue.css">
+	<link rel="stylesheet" href="css/baby-blue.css">
 
-<!-- <link href="css/jquery.dynatable.css" rel="stylesheet" type="text/css" /> -->
+	<!-- <link href="css/jquery.dynatable.css" rel="stylesheet" type="text/css" /> -->
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 
-<link href="css/TableTools_JUI.css" rel="stylesheet" type="text/css"/>
+	<link href="css/TableTools_JUI.css" rel="stylesheet" type="text/css"/>
 
-<link href="css/TableTools.css" rel="stylesheet" type="text/css"/>
+	<link href="css/TableTools.css" rel="stylesheet" type="text/css"/>
 
-<link href="css/demo_page.css" rel="stylesheet" type="text/css"/>
+	<link href="css/demo_page.css" rel="stylesheet" type="text/css"/>
 
-<link href="css/demo_table.css" rel="stylesheet" type="text/css"/>
+	<link href="css/demo_table.css" rel="stylesheet" type="text/css"/>
 
-<link href="css/mech-orders.css" rel="stylesheet" type="text/css"/>
+	<link href="css/mech-orders.css" rel="stylesheet" type="text/css"/>
 
 </head>
 
 <body>
-	<!-- Delete modal-->
-	<div class="modal" id="orderDeleteDiv">
-		<div class="modal-dialog">
-			<div class="modal-content" id="dialog-confirm">
-				<div class="modal-header">
-					<button type="button" class="close closeDeleteOrderDialog" data-dismiss="modal" aria-hidden="true">×</button>
-					<h4 class="modal-title">Delete Order?</h4>
-					<div class="modal-body">
-						<p>This Order will be permanently deleted and cannot be recovered. Are you sure?</p>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="button-warning pure-button" id="confirmDeleteOrderBtn">Delete</button>
-						<button type="button" class="button-secondary pure-button closeDeleteOrderDialog" data-dismiss="modal">Close</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Admin panel modal-->
-	<div class="modal" id="adminPanelDiv">
-		<div class="modal-dialog">
-			<div class="modal-content" id="dialog">
-				<div class="modal-header">
-					<button type="button" class="close closeAdminConsole" data-dismiss="modal" aria-hidden="true">×</button>
-					<h4 class="modal-title">Admin Console</h4>
-				</div>
+<!-- Delete modal-->
+<div class="modal" id="orderDeleteDiv">
+	<div class="modal-dialog">
+		<div class="modal-content" id="dialog-confirm">
+			<div class="modal-header">
+				<button type="button" class="close closeDeleteOrderDialog" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title">Delete Order?</h4>
 				<div class="modal-body">
-					<div class="alert alert-dismissable alert-danger"
-						 id="dialogErrorMsg" style="display: none;">
-					</div>
-					<div id="accordion">
-						<h3>Add User</h3>
-						<div>
-							<form class="pure-form pure-form-aligned" id="addUserForm" method="POST" action="api/mech/orders/user">
-								<fieldset>
-									<div class="pure-control-group">
-										<label>Username</label>
-										<input id="userName" name="userName" type="text" placeholder="Username">
-									</div>
-
-									<div class="pure-control-group">
-										<label>Password</label>
-										<input id="password" name="password" type="password" placeholder="Password">
-									</div>
-
-									<div class="pure-control-group">
-										<label>Verify Password</label> <input id="verifyPwd" name="verifyPwd" type="password" placeholder="Password">
-									</div>
-
-									<div class="pure-controls">
-										<button type="submit" class="pure-button pure-button-primary">Add</button>
-									</div>
-								</fieldset>
-							</form>
-						</div>
-						<h3>Deactivate User</h3>
-						<div>
-							<form class="pure-form" id="deactivateUserForm" method="DELETE" action="api/mech/orders/user">
-								<fieldset>
-									<input type="text" placeholder="Username" name="userName" id="userName" >
-									<button type="submit" class="pure-button pure-button-primary">Deactivate</button>
-								</fieldset>
-							</form>
-						</div>
-						<h3>Add Equipment</h3>
-						<div>
-							<form class="pure-form" id="addEquipmentDataForm" method="POST" action="api/mech/orders/lookup">
-								<fieldset>
-									<input type="text" class="col-lg-4" id="type" name="type" value="equipment" hidden>
-									<input type="text" placeholder="Equipment Number" class="col-lg-4" id="value" name="value" required>
-									<button type="submit" class="pure-button pure-button-primary" style="margin-left: 10px">Add</button>
-								</fieldset>
-							</form>
-						</div>
-						<h3>Remove Equipment</h3>
-						<div>
-							<form class="pure-form" id="removeEquipmentDataForm" method="DELETE" action="api/mech/orders/lookup">
-								<fieldset>
-									<input type="text" class="col-lg-4" id="type" name="type" value="equipment" hidden>
-									<input type="text" placeholder="Equipment Number" class="col-lg-4" id="value" name="value" required>
-									<button type="submit" class="pure-button pure-button-primary" style="margin-left: 10px">Add</button>
-								</fieldset>
-							</form>
-						</div>
-						<h3>Add Mechanic</h3>
-						<div>
-							<form class="pure-form" id="addMechanicDataForm" method="POST" action="api/mech/orders/lookup">
-								<fieldset>
-									<input type="text" class="col-lg-4" id="type" name="type" value="mechanic" hidden>
-									<input type="text" placeholder="Equipment Number" class="col-lg-4" id="value" name="value" required>
-									<button type="submit" class="pure-button pure-button-primary" style="margin-left: 10px">Add</button>
-								</fieldset>
-							</form>
-						</div>
-						<h3>Remove Mechanic</h3>
-						<div>
-							<form class="pure-form" id="removeMechanicDataForm" method="DELETE" action="api/mech/orders/lookup">
-								<fieldset>
-									<input type="text" class="col-lg-4" id="type" name="type" value="mechanic" hidden>
-									<input type="text" placeholder="Equipment Number" class="col-lg-4" id="value" name="value" required>
-									<button type="submit" class="pure-button pure-button-primary" style="margin-left: 10px">Add</button>
-								</fieldset>
-							</form>
-						</div>
-						<h3>Add Tyre Type</h3>
-						<div>
-							<form class="pure-form" id="addTyreDataForm" method="POST" action="api/mech/orders/lookup">
-								<fieldset>
-									<input type="text" class="col-lg-4" id="type" name="type" value="tyre" hidden>
-									<input type="text" placeholder="Tyre Type" class="col-lg-4" id="value" name="value" required>
-									<button type="submit" class="pure-button pure-button-primary" style="margin-left: 10px">Add</button>
-								</fieldset>
-							</form>
-						</div>
-						<h3>Remove Tyre Type</h3>
-						<div>
-							<form class="pure-form" id="removeTyreDataForm" method="DELETE" action="api/mech/orders/lookup">
-								<fieldset>
-									<input type="text" class="col-lg-4" id="type" name="type" value="tyre" hidden>
-									<input type="text" placeholder="Tyre Type" class="col-lg-4" id="value" name="value" required>
-									<button type="submit" class="pure-button pure-button-primary" style="margin-left: 10px">Add</button>
-								</fieldset>
-							</form>
-						</div>
-					</div>
+					<p>This Order will be permanently deleted and cannot be recovered. Are you sure?</p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="button-secondary pure-button closeAdminConsole" data-dismiss="modal">Close</button>
+					<button type="button" class="button-warning pure-button" id="confirmDeleteOrderBtn">Delete</button>
+					<button type="button" class="button-secondary pure-button closeDeleteOrderDialog" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 
-	<!-- Top bar - Logo & login-->
-	<div class="navbar navbar-inverse navbar-fixed-top" id="topBarDiv">
-
-		<div class="container-fluid">
-			<div class="navbar-header" style="margin-left: 100px; display:none;" id="logoDiv">
-				<a class="navbar-brand" href="/"><img src="images/SmallLogo.png" alt="JassBoys Orders" width="150" height="90"></img></a>
-				<a class="navbar-brand" href="/"  style="margin-left: -30px; margin-top: 25px; padding:5px">
-					<img src="images/JassBoys.png" alt="JassBoys Orders" height="50"></img></a>
+<!-- Admin panel modal-->
+<div class="modal" id="adminPanelDiv">
+	<div class="modal-dialog">
+		<div class="modal-content" id="dialog">
+			<div class="modal-header">
+				<button type="button" class="close closeAdminConsole" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title">Admin Console</h4>
 			</div>
-
-			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav navbar-right" style="margin-right: 150px; margin-top : 50px;">
-					<li id="adminConsoleItem" style="display:none;"><a href="javascript: adminConsole();">Admin Console</a></li>
-					<li id="signOutItem" style="display:none;"><a href="javascript: signOut()">Sign Out</a></li>
-					<li id="signInItem">
-						<form class="pure-form" method="POST" action="api/mech/orders/login" id="loginForm">
+			<div class="modal-body">
+				<div class="alert alert-dismissable alert-danger"
+					 id="dialogErrorMsg" style="display: none;">
+				</div>
+				<div id="accordion">
+					<h3>Add User</h3>
+					<div>
+						<form class="pure-form pure-form-aligned" id="addUserForm" method="POST" action="api/mech/orders/user">
 							<fieldset>
-								<input type="text" placeholder="Username" name="userName" id="userName" required>
-								<input type="password" placeholder="Password" name="password" id="password" required>
-								<button type="submit" class="pure-button pure-button-primary">Sign in</button>
+								<div class="pure-control-group">
+									<label>Username</label>
+									<input id="userName" name="userName" type="text" placeholder="Username">
+								</div>
+
+								<div class="pure-control-group">
+									<label>Password</label>
+									<input id="password" name="password" type="password" placeholder="Password">
+								</div>
+
+								<div class="pure-control-group">
+									<label>Verify Password</label> <input id="verifyPwd" name="verifyPwd" type="password" placeholder="Password">
+								</div>
+
+								<div class="pure-controls">
+									<button type="submit" class="pure-button pure-button-primary">Add</button>
+								</div>
 							</fieldset>
 						</form>
-					</li>
-				</ul>
+					</div>
+					<h3>Deactivate User</h3>
+					<div>
+						<form class="pure-form" id="deactivateUserForm" method="DELETE" action="api/mech/orders/user">
+							<fieldset>
+								<input type="text" placeholder="Username" name="userName" id="userName" >
+								<button type="submit" class="pure-button pure-button-primary">Deactivate</button>
+							</fieldset>
+						</form>
+					</div>
+					<h3>Add Equipment</h3>
+					<div>
+						<form class="pure-form" id="addEquipmentDataForm" method="POST" action="api/mech/orders/lookup">
+							<fieldset>
+								<input type="text" class="col-lg-4" id="type" name="type" value="equipment" hidden>
+								<input type="text" placeholder="Equipment Number" class="col-lg-4" id="value" name="value" required>
+								<button type="submit" class="pure-button pure-button-primary" style="margin-left: 10px">Add</button>
+							</fieldset>
+						</form>
+					</div>
+					<h3>Remove Equipment</h3>
+					<div>
+						<form class="pure-form" id="removeEquipmentDataForm" method="DELETE" action="api/mech/orders/lookup">
+							<fieldset>
+								<input type="text" class="col-lg-4" id="type" name="type" value="equipment" hidden>
+								<input type="text" placeholder="Equipment Number" class="col-lg-4" id="value" name="value" required>
+								<button type="submit" class="pure-button pure-button-primary" style="margin-left: 10px">Add</button>
+							</fieldset>
+						</form>
+					</div>
+					<h3>Add Mechanic</h3>
+					<div>
+						<form class="pure-form" id="addMechanicDataForm" method="POST" action="api/mech/orders/lookup">
+							<fieldset>
+								<input type="text" class="col-lg-4" id="type" name="type" value="mechanic" hidden>
+								<input type="text" placeholder="Equipment Number" class="col-lg-4" id="value" name="value" required>
+								<button type="submit" class="pure-button pure-button-primary" style="margin-left: 10px">Add</button>
+							</fieldset>
+						</form>
+					</div>
+					<h3>Remove Mechanic</h3>
+					<div>
+						<form class="pure-form" id="removeMechanicDataForm" method="DELETE" action="api/mech/orders/lookup">
+							<fieldset>
+								<input type="text" class="col-lg-4" id="type" name="type" value="mechanic" hidden>
+								<input type="text" placeholder="Equipment Number" class="col-lg-4" id="value" name="value" required>
+								<button type="submit" class="pure-button pure-button-primary" style="margin-left: 10px">Add</button>
+							</fieldset>
+						</form>
+					</div>
+					<h3>Add Tyre Type</h3>
+					<div>
+						<form class="pure-form" id="addTyreDataForm" method="POST" action="api/mech/orders/lookup">
+							<fieldset>
+								<input type="text" class="col-lg-4" id="type" name="type" value="tyre" hidden>
+								<input type="text" placeholder="Tyre Type" class="col-lg-4" id="value" name="value" required>
+								<button type="submit" class="pure-button pure-button-primary" style="margin-left: 10px">Add</button>
+							</fieldset>
+						</form>
+					</div>
+					<h3>Remove Tyre Type</h3>
+					<div>
+						<form class="pure-form" id="removeTyreDataForm" method="DELETE" action="api/mech/orders/lookup">
+							<fieldset>
+								<input type="text" class="col-lg-4" id="type" name="type" value="tyre" hidden>
+								<input type="text" placeholder="Tyre Type" class="col-lg-4" id="value" name="value" required>
+								<button type="submit" class="pure-button pure-button-primary" style="margin-left: 10px">Add</button>
+							</fieldset>
+						</form>
+					</div>
+				</div>
 			</div>
+			<div class="modal-footer">
+				<button type="button" class="button-secondary pure-button closeAdminConsole" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 
+<!-- Top bar - Logo & login-->
+<div class="navbar navbar-inverse navbar-fixed-top" id="topBarDiv">
+
+	<div class="container-fluid">
+		<div class="navbar-header" style="margin-left: 100px; display:none;" id="logoDiv">
+			<a class="navbar-brand" href="/"><img src="images/SmallLogo.png" alt="JassBoys Orders" width="150" height="90"></img></a>
+			<a class="navbar-brand" href="/"  style="margin-left: -30px; margin-top: 25px; padding:5px">
+				<img src="images/JassBoys.png" alt="JassBoys Orders" height="50"></img></a>
+		</div>
+
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav navbar-right" style="margin-right: 150px; margin-top : 50px;">
+				<li id="adminConsoleItem" style="display:none;"><a href="javascript: adminConsole();">Admin Console</a></li>
+				<li id="signOutItem" style="display:none;"><a href="javascript: signOut()">Sign Out</a></li>
+				<li id="signInItem">
+					<form class="pure-form" method="POST" action="api/mech/orders/login" id="loginForm">
+						<fieldset>
+							<input type="text" placeholder="Username" name="userName" id="userName" required>
+							<input type="password" placeholder="Password" name="password" id="password" required>
+							<button type="submit" class="pure-button pure-button-primary">Sign in</button>
+						</fieldset>
+					</form>
+				</li>
+			</ul>
 		</div>
 
 	</div>
 
-	<div class="container-fluid">
-		
-		<div class="main" id="orderAppDiv">
-			<div class="jumbotron">
+</div>
 
-				<ul class="nav nav-tabs" style="margin-bottom: 15px;">
-					<li class="active"><a href="#addOrder" data-toggle="tab" class="tabLink">Add Order</a></li>
-					<li><a href="#viewEditOrder" data-toggle="tab" class="tabLink" id="viewEditOrderLink">View/Edit Order</a></li>
-					<li><a href="#report" data-toggle="tab" class="tabLink">Reports</a></li>
-				</ul>
+<div class="container-fluid">
 
-				<div class="alert alert-dismissable alert-danger" id="errorMsg">
-					Please login to contine
+	<div class="main" id="orderAppDiv">
+		<div class="jumbotron">
+
+			<ul class="nav nav-tabs" style="margin-bottom: 15px;">
+				<li class="active"><a href="#addOrder" data-toggle="tab" class="tabLink">Add Order</a></li>
+				<li><a href="#viewEditOrder" data-toggle="tab" class="tabLink" id="viewEditOrderLink">View/Edit Order</a></li>
+				<li><a href="#report" data-toggle="tab" class="tabLink">Reports</a></li>
+			</ul>
+
+			<div class="alert alert-dismissable alert-danger" id="errorMsg">
+				Please login to contine
+			</div>
+
+
+			<div id="myTabContent" class="tab-content">
+
+				<div class="tab-pane fade active in" id="addOrder">
+					<form class="pure-form pure-form-stacked" method="POST" action="api/mech/orders" id="addOrderForm">
+						<fieldset>
+							<div class="row">
+								<div class="col-md-4">
+									<label>Order Date</label>
+									<input type="text" name="orderDate" id="addOrderDate"  required/>
+								</div>
+
+								<div class="col-md-2 ">
+									<div class="form-group">
+										<label>Equipment Number</label>
+										<select class="form-control" name="equipmentNumber" id="equipmentNumber" required >
+											<option value="">Select</option>
+										</select>
+										<label>Equipment Type</label>
+										<select class="form-control" name="equipmentType" id="equipmentType" required>
+											<option value="">Select</option>
+											<option value="Tractor">Tractor</option>
+											<option value="Trailer">Trailer</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="col-md-2 col-md-offset-2">
+									<div class="form-group">
+										<label>Mechanic</label>
+										<select class="form-control" name="mechanicName" id="mechanicName" required >
+											<option value="">Select</option>
+										</select>
+										<label>Labor</label>
+										<input type="number" placeholder="Number of Hours" name="laborHours" id="laborHours">
+										<input type="number" placeholder="$ Rate per hour" name="laborHourlyRate" id="laborHourlyRate">
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-2">
+									<div class="form-group">
+										<label>Tyre Type</label>
+										<select class="form-control" name="tyreType" id="tyreType" >
+											<option value="">Select</option>
+										</select>
+										<label>Number of Tyres</label>
+										<input type="number" name="numOfTyres" id="numOfTyres" />
+										<label>Tyre Price</label>
+										<input type="number" name="tyrePrice" id="tyrePrice" />
+									</div>
+								</div>
+
+								<div class="col-md-2 col-md-offset-2">
+									<div class="form-group">
+										<label>Part Cost</label>
+										<input type="number" name="partCost" id="partCost" />
+										<label>Part Description</label>
+										<textarea rows="2" cols="50" id="partDescription" name="partDescription" maxlength="100"></textarea>
+									</div>
+								</div>
+
+								<div class="col-md-2 col-md-offset-2">
+									<div class="form-group">
+										<label>Lubricant Type</label>
+										<select class="form-control" name="lubricantType" id="lubricantType">
+											<option value="">Select</option>
+											<option value="Engine">Engine Oil</option>
+											<option value="Transmission">Transmission Oil</option>
+											<option value="Coolant">Coolant Oil</option>
+											<option value="Hydraulic">Hydraulic Oil</option>
+											<option value="Gear">Gear Oil</option>
+										</select>
+										<label>Quantity</label>
+										<input type="number" name="lubricantQuantity" id="lubricantQuantity" placeholder="Number of Gallons"/>
+										<label>Price</label>
+										<input type="number" name="lubricantPrice" id="lubricantPrice" placeholder="Price per Gallon"/>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-2">
+									<div class="form-group">
+										<label>Total Charges</label>
+										<input type="number" name="totalCharges" id="totalCharges" placeholder="Click here to calculate" required/>
+									</div>
+								</div>
+								<div class="col-md-6 col-md-offset-2">
+									<div class="form-group">
+										<label>Notes</label>
+										<textarea rows="3" cols="90" id="notes" name="notes" maxlength="200"></textarea>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-1 col-md-offset-8">
+									<button type="submit" class="btn btn-success btn-block" id="submitOrderBtn">Submit</button>
+								</div>
+								<div class="col-md-1">
+									<button type="reset" class="btn btn-danger btn-block" id="resetBtn">Reset&nbsp;</button>
+								</div>
+							</div>
+						</fieldset>
+					</form>
 				</div>
-				
 
-				<div id="myTabContent" class="tab-content">
+				<div class="tab-pane fade" id="viewEditOrder">
+					<form class="form-inline" role="form" id="orderLookUpForm">
+						<div class="form-group">
+							<label>Order ID: </label>
+							<input class="form-control" id="lookUpOrderId" name="lookUpOrderId" type="text" style="margin-right: 20px">
+						</div>
 
-					<div class="tab-pane fade active in" id="addOrder">
-						<form class="pure-form pure-form-stacked" method="POST" action="api/mech/orders" id="addOrderForm">
+						<button type="submit" class="btn btn-primary" id="orderLookUpBtn">Look Up</button>
+					</form>
+
+					<div id="viewEditOrderFormDiv">
+						<hr/>
+						<form class="pure-form pure-form-stacked" method="POST" action="api/mech/orders" id="viewEditOrderForm">
 							<fieldset>
+								<input type="text" name="id" id="id"  value="" hidden/>
 								<div class="row">
 									<div class="col-md-4">
 										<label>Order Date</label>
-										<input type="text" name="orderDate" id="addOrderDate"  required/>
+										<input type="text" name="orderDate" id="editOrderDate"  required disabled/>
 									</div>
 
 									<div class="col-md-2 ">
 										<div class="form-group">
 											<label>Equipment Number</label>
-											<select class="form-control" name="equipmentNumber" id="equipmentNumber" required >
+											<select class="form-control" name="equipmentNumber" id="equipmentNumber" required disabled>
 												<option value="">Select</option>
 											</select>
 											<label>Equipment Type</label>
-											<select class="form-control" name="equipmentType" id="equipmentType" required>
+											<select class="form-control" name="equipmentType" id="equipmentType" required disabled>
 												<option value="">Select</option>
 												<option value="Tractor">Tractor</option>
 												<option value="Trailer">Trailer</option>
@@ -255,12 +373,12 @@
 									<div class="col-md-2 col-md-offset-2">
 										<div class="form-group">
 											<label>Mechanic</label>
-											<select class="form-control" name="mechanicName" id="mechanicName" required >
+											<select class="form-control" name="mechanicName" id="mechanicName" required disabled>
 												<option value="">Select</option>
 											</select>
 											<label>Labor</label>
-											<input type="number" placeholder="Number of Hours" name="laborHours" id="laborHours">
-											<input type="number" placeholder="$ Rate per hour" name="laborHourlyRate" id="laborHourlyRate">
+											<input type="number" placeholder="Number of Hours" name="laborHours" id="laborHours" disabled>
+											<input type="number" placeholder="$ Rate per hour" name="laborHourlyRate" id="laborHourlyRate" disabled>
 										</div>
 									</div>
 								</div>
@@ -269,29 +387,29 @@
 									<div class="col-md-2">
 										<div class="form-group">
 											<label>Tyre Type</label>
-											<select class="form-control" name="tyreType" id="tyreType" >
+											<select class="form-control" name="tyreType" id="tyreType" disabled>
 												<option value="">Select</option>
 											</select>
 											<label>Number of Tyres</label>
-											<input type="number" name="numOfTyres" id="numOfTyres" />
+											<input type="number" name="numOfTyres" id="numOfTyres" disabled/>
 											<label>Tyre Price</label>
-											<input type="number" name="tyrePrice" id="tyrePrice" />
+											<input type="number" name="tyrePrice" id="tyrePrice" disabled />
 										</div>
 									</div>
 
 									<div class="col-md-2 col-md-offset-2">
 										<div class="form-group">
 											<label>Part Cost</label>
-											<input type="number" name="partCost" id="partCost" />
+											<input type="number" name="partCost" id="partCost" disabled/>
 											<label>Part Description</label>
-											<textarea rows="2" cols="50" id="partDescription" name="partDescription" maxlength="100"></textarea>
+											<textarea rows="2" cols="50" id="partDescription" name="partDescription" maxlength="100" disabled></textarea>
 										</div>
 									</div>
 
 									<div class="col-md-2 col-md-offset-2">
 										<div class="form-group">
 											<label>Lubricant Type</label>
-											<select class="form-control" name="lubricantType" id="lubricantType">
+											<select class="form-control" name="lubricantType" id="lubricantType" disabled>
 												<option value="">Select</option>
 												<option value="Engine">Engine Oil</option>
 												<option value="Transmission">Transmission Oil</option>
@@ -300,9 +418,9 @@
 												<option value="Gear">Gear Oil</option>
 											</select>
 											<label>Quantity</label>
-											<input type="number" name="lubricantQuantity" id="lubricantQuantity" placeholder="Number of Gallons"/>
+											<input type="number" name="lubricantQuantity" id="lubricantQuantity" placeholder="Number of Gallons" disabled/>
 											<label>Price</label>
-											<input type="number" name="lubricantPrice" id="lubricantPrice" placeholder="Price per Gallon"/>
+											<input type="number" name="lubricantPrice" id="lubricantPrice" placeholder="Price per Gallon" disabled/>
 										</div>
 									</div>
 								</div>
@@ -324,240 +442,122 @@
 
 								<div class="row">
 									<div class="col-md-1 col-md-offset-8">
-										<button type="submit" class="btn btn-success btn-block" id="submitOrderBtn">Submit</button>
+										<button type="button" class="btn btn-primary btn-block" id="editOrderBtn">Edit</button>
 									</div>
 									<div class="col-md-1">
-										<button type="reset" class="btn btn-danger btn-block" id="resetBtn">Reset&nbsp;</button>
+										<button type="button" class="btn btn-danger btn-block" id="deleteOrderBtn">Delete</button>
 									</div>
 								</div>
-							</fieldset>
-						</form>
-					</div>
-
-					<div class="tab-pane fade" id="viewEditOrder">
-						<form class="form-inline" role="form" id="orderLookUpForm">
-							<div class="form-group">
-								<label>Order ID: </label>
-								<input class="form-control" id="lookUpOrderId" name="lookUpOrderId" type="text" style="margin-right: 20px">
-							</div>
-
-							<button type="submit" class="btn btn-primary" id="orderLookUpBtn">Look Up</button>
-						</form>
-
-						<div id="viewEditOrderFormDiv">
-							<hr/>
-							<form class="pure-form pure-form-stacked" method="POST" action="api/mech/orders" id="viewEditOrderForm">
-								<fieldset>
-									<input type="text" name="id" id="id"  value="" hidden/>
-									<div class="row">
-										<div class="col-md-4">
-											<label>Order Date</label>
-											<input type="text" name="orderDate" id="editOrderDate"  required disabled/>
-										</div>
-
-										<div class="col-md-2 ">
-											<div class="form-group">
-												<label>Equipment Number</label>
-												<select class="form-control" name="equipmentNumber" id="equipmentNumber" required disabled>
-													<option value="">Select</option>
-												</select>
-												<label>Equipment Type</label>
-												<select class="form-control" name="equipmentType" id="equipmentType" required disabled>
-													<option value="">Select</option>
-													<option value="Tractor">Tractor</option>
-													<option value="Trailer">Trailer</option>
-												</select>
-											</div>
-										</div>
-
-										<div class="col-md-2 col-md-offset-2">
-											<div class="form-group">
-												<label>Mechanic</label>
-												<select class="form-control" name="mechanicName" id="mechanicName" required disabled>
-													<option value="">Select</option>
-												</select>
-												<label>Labor</label>
-												<input type="number" placeholder="Number of Hours" name="laborHours" id="laborHours" disabled>
-												<input type="number" placeholder="$ Rate per hour" name="laborHourlyRate" id="laborHourlyRate" disabled>
-											</div>
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-md-2">
-											<div class="form-group">
-												<label>Tyre Type</label>
-												<select class="form-control" name="tyreType" id="tyreType" disabled>
-													<option value="">Select</option>
-												</select>
-												<label>Number of Tyres</label>
-												<input type="number" name="numOfTyres" id="numOfTyres" disabled/>
-												<label>Tyre Price</label>
-												<input type="number" name="tyrePrice" id="tyrePrice" disabled />
-											</div>
-										</div>
-
-										<div class="col-md-2 col-md-offset-2">
-											<div class="form-group">
-												<label>Part Cost</label>
-												<input type="number" name="partCost" id="partCost" disabled/>
-												<label>Part Description</label>
-												<textarea rows="2" cols="50" id="partDescription" name="partDescription" maxlength="100" disabled></textarea>
-											</div>
-										</div>
-
-										<div class="col-md-2 col-md-offset-2">
-											<div class="form-group">
-												<label>Lubricant Type</label>
-												<select class="form-control" name="lubricantType" id="lubricantType" disabled>
-													<option value="">Select</option>
-													<option value="Engine">Engine Oil</option>
-													<option value="Transmission">Transmission Oil</option>
-													<option value="Coolant">Coolant Oil</option>
-													<option value="Hydraulic">Hydraulic Oil</option>
-													<option value="Gear">Gear Oil</option>
-												</select>
-												<label>Quantity</label>
-												<input type="number" name="lubricantQuantity" id="lubricantQuantity" placeholder="Number of Gallons" disabled/>
-												<label>Price</label>
-												<input type="number" name="lubricantPrice" id="lubricantPrice" placeholder="Price per Gallon" disabled/>
-											</div>
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-md-2">
-											<div class="form-group">
-												<label>Total Charges</label>
-												<input type="number" name="totalCharges" id="totalCharges" placeholder="Click here to calculate" required/>
-											</div>
-										</div>
-										<div class="col-md-6 col-md-offset-2">
-											<div class="form-group">
-												<label>Notes</label>
-												<textarea rows="3" cols="90" id="notes" name="notes" maxlength="200"></textarea>
-											</div>
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-md-1 col-md-offset-8">
-											<button type="button" class="btn btn-primary btn-block" id="editOrderBtn">Edit</button>
-										</div>
-										<div class="col-md-1">
-											<button type="button" class="btn btn-danger btn-block" id="deleteOrderBtn">Delete</button>
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-md-1 col-md-offset-8">
-											<button type="button" class="btn btn-warning btn-block" id="cancelEditBtn" style="display:none;">Cancel</button>
-										</div>
-										<div class="col-md-1">
-											<button type="submit" class="btn btn-success btn-block" id="saveOrderBtn" style="display:none;">Save</button>
-										</div>
-									</div>
-								</fieldset>
-							</form>
-						</div>
-					</div>
-
-					<div class="tab-pane fade" id="report">
-						<form class="pure-form pure-form-stacked" id="searchOrderForm">
-							<fieldset>
 
 								<div class="row">
-									<div class="col-md-3">
-										<div class="form-group">
-											<label class="control-label">Order Date</label>
-											<input type="text" placeholder="From" name="fromOrderDate" id="fromOrderDate">
-											<input type="text" placeholder="To" name="toOrderDate" id="toOrderDate">
-										</div>
+									<div class="col-md-1 col-md-offset-8">
+										<button type="button" class="btn btn-warning btn-block" id="cancelEditBtn" style="display:none;">Cancel</button>
 									</div>
-
-									<div class="col-md-3">
-										<div class="form-group">
-											<label>Equipment Number</label>
-											<select class="form-control" name="equipmentNumber" id="equipmentNumber" required >
-												<option value="">Select</option>
-											</select>
-											<label>Mechanic Name</label>
-											<select class="form-control" name="mechanicName" id="mechanicName" required >
-												<option value="">Select</option>
-											</select>
-										</div>
+									<div class="col-md-1">
+										<button type="submit" class="btn btn-success btn-block" id="saveOrderBtn" style="display:none;">Save</button>
 									</div>
-
-									<div class="col-md-1 col-md-offset-1">
-										<div class="form-group">
-											<label>&nbsp;</label>
-											<label>&nbsp;</label>
-											<label>&nbsp;</label>
-											<button type="button" class="btn btn-primary" id="searchOrderBtn" onclick=searchOrders()>Search</button>
-										</div>
-									</div>
-
 								</div>
 							</fieldset>
 						</form>
 					</div>
-
 				</div>
-			</div>
 
-			<div id="reportTable">
-				<h2 class="sub-header" id="ordersTableHeading" style="font-weight: normal; background: #4d8893; padding: 5px; color: white">Recent Orders</h2>
-				<div class="table-responsive">
-					<table class="table table-bordered table-striped table-hover" id="ordersTable" style="color: #333">
-						<thead style="background-color: darkgrey;">
-						<tr>
-							<th style="width: 100px;">Order <br/>Date</th>
-							<th>Equipment <br/>Number</th>
-							<th>Equipment <br/>Type</th>
-							<th>Mechanic <br/>Name</th>
-							<th>Labor <br/>Hours</th>
-							<th>Labor <br/>Hourly Rate</th>
-							<th>Tyre <br/>Type</th>
-							<th>Number <br/>of Tyres</th>
-							<th>Tyre <br/>Price</th>
-							<th>Part<br/>Cost</th>
-							<th>Part<br/>Description</th>
-							<th>Lubricant<br/>Type</th>
-							<th>Lubricant<br/>Quantity</th>
-							<th>Lubricant<br/>Price/Gallon</th>
-							<th>Total<br/>Charges</th>
-							<th>View/<br/>Edit</th>
-						</tr>
-						</thead>
-						<tbody></tbody>
-					</table>
+				<div class="tab-pane fade" id="report">
+					<form class="pure-form pure-form-stacked" id="searchOrderForm">
+						<fieldset>
+
+							<div class="row">
+								<div class="col-md-3">
+									<div class="form-group">
+										<label class="control-label">Order Date</label>
+										<input type="text" placeholder="From" name="fromOrderDate" id="fromOrderDate">
+										<input type="text" placeholder="To" name="toOrderDate" id="toOrderDate">
+									</div>
+								</div>
+
+								<div class="col-md-3">
+									<div class="form-group">
+										<label>Equipment Number</label>
+										<select class="form-control" name="equipmentNumber" id="equipmentNumber" >
+											<option value="">Select</option>
+										</select>
+										<label>Mechanic Name</label>
+										<select class="form-control" name="mechanicName" id="mechanicName" >
+											<option value="">Select</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="col-md-1 col-md-offset-1">
+									<div class="form-group">
+										<label>&nbsp;</label>
+										<label>&nbsp;</label>
+										<label>&nbsp;</label>
+										<button type="button" class="btn btn-primary" id="searchOrderBtn" onclick=searchOrders()>Search</button>
+									</div>
+								</div>
+
+							</div>
+						</fieldset>
+					</form>
 				</div>
-			</div>
 
+			</div>
 		</div>
+
+		<div id="reportTable">
+			<h2 class="sub-header" id="ordersTableHeading" style="font-weight: normal; background: #4d8893; padding: 5px; color: white">Recent Orders</h2>
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped table-hover" id="ordersTable" style="color: #333">
+					<thead style="background-color: darkgrey;">
+					<tr>
+						<th style="width: 100px;">Order <br/>Date</th>
+						<th>Equipment <br/>Number</th>
+						<th>Equipment <br/>Type</th>
+						<th>Mechanic <br/>Name</th>
+						<th>Labor <br/>Hours</th>
+						<th>Labor <br/>Hourly Rate</th>
+						<th>Tyre <br/>Type</th>
+						<th>Number <br/>of Tyres</th>
+						<th>Tyre <br/>Price</th>
+						<th>Part<br/>Cost</th>
+						<th>Part<br/>Description</th>
+						<th>Lubricant<br/>Type</th>
+						<th>Lubricant<br/>Quantity</th>
+						<th>Lubricant<br/>Price/Gallon</th>
+						<th>Total<br/>Charges</th>
+						<th>View/<br/>Edit</th>
+					</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+
 	</div>
+</div>
 
-	<!-- Bootstrap core JavaScript
-    ================================================== -->
-	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
-  	<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
-	<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 
-	<!--  script type="text/javascript" src="js/jquery.dynatable.js"></script> -->
-	
-	<script type="text/javascript" src="js/jquery.dataTables.js"></script>
-	
-	<script type="text/javascript" src="js/common.js"></script>
-	
-	<script type="text/javascript" src="js/TableTools.js"></script>
-	
-	<script type="text/javascript" src="js/ZeroClipboard.js"></script>
+<!--  script type="text/javascript" src="js/jquery.dynatable.js"></script> -->
 
-	<script>
-	$(document).ready(function(){
+<script type="text/javascript" src="js/jquery.dataTables.js"></script>
+
+<script type="text/javascript" src="js/common.js"></script>
+
+<script type="text/javascript" src="js/TableTools.js"></script>
+
+<script type="text/javascript" src="js/ZeroClipboard.js"></script>
+
+<script>
+    $(document).ready(function(){
         init();
     });
 </script>
