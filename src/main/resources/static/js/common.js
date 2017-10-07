@@ -198,30 +198,93 @@ $( "#removeTyreDataForm" ).submit(function( event ) {
     return false;
 });
 
+$( "#addVendorDataForm" ).submit(function( event ) {
+    $("#errorMsg").hide();
+    $.ajax({
+        url     : $(this).attr('action') + "?at="+authToken,
+        type    : $(this).attr('method'),
+        contentType : "application/json; charset=utf-8",
+        dataType: 'json',
+        data    : JSON.stringify($(this).serializeObject()),
+        success : function( data ) {
+            if(data.responseCode == 200){
+                location.reload();
+            } else{
+                $("#dialogErrorMsg").text(data.responseDescription);
+                $("#dialogErrorMsg").show();
+            }
+        },
+        error   : function( xhr, err ) {
+            alert('Error in form submission '+err+xhr);
+        }
+    });
+    return false;
+});
+
+$( "#removeVendorDataForm" ).submit(function( event ) {
+    $("#errorMsg").hide();
+    $.ajax({
+        url     : $(this).attr('action') + "?at="+authToken,
+        type    : $(this).attr('method'),
+        contentType : "application/json; charset=utf-8",
+        dataType: 'json',
+        data    : JSON.stringify($(this).serializeObject()),
+        success : function( data ) {
+            if(data.responseCode == 200){
+                location.reload();
+            } else{
+                $("#dialogErrorMsg").text(data.responseDescription);
+                $("#dialogErrorMsg").show();
+            }
+        },
+        error   : function( xhr, err ) {
+            alert('Error in form submission '+err+xhr);
+        }
+    });
+    return false;
+});
+
 function loadLookupData(){
     $.get( "api/mech/orders/lookup?at="+authToken, function( data ) {
         if(data.responseCode == 200){
 
             var equipments = data.lookupData.equipment;
-            var option = '';
-            for (var i=0;i<equipments.length;i++){
-                option += '<option value="'+ equipments[i] + '">' + equipments[i] + '</option>';
+
+            if(equipments != null){
+                var option = '';
+                for (var i=0;i<equipments.length;i++){
+                    option += '<option value="'+ equipments[i] + '">' + equipments[i] + '</option>';
+                }
+                $( "select[id=equipmentNumber]" ).append(option);
             }
-            $( "select[id=equipmentNumber]" ).append(option);
 
             var mechanics = data.lookupData.mechanic;
-            var option = '';
-            for (var i=0;i<mechanics.length;i++){
-                option += '<option value="'+ mechanics[i] + '">' + mechanics[i] + '</option>';
+            if(mechanics != null){
+                var option = '';
+                for (var i=0;i<mechanics.length;i++){
+                    option += '<option value="'+ mechanics[i] + '">' + mechanics[i] + '</option>';
+                }
+                $( "select[id=mechanicName]" ).append(option);
             }
-            $( "select[id=mechanicName]" ).append(option);
+
 
             var tyres = data.lookupData.tyre;
-            var option = '';
-            for (var i=0;i<tyres.length;i++){
-                option += '<option value="'+ tyres[i] + '">' + tyres[i] + '</option>';
+            if(tyres != null){
+                var option = '';
+                for (var i=0;i<tyres.length;i++){
+                    option += '<option value="'+ tyres[i] + '">' + tyres[i] + '</option>';
+                }
+                $( "select[id=tyreType]" ).append(option);
             }
-            $( "select[id=tyreType]" ).append(option);
+
+            var vendors = data.lookupData.vendor;
+            if(vendors != null) {
+                var option = '';
+                for (var i = 0; i < vendors.length; i++) {
+                    option += '<option value="' + vendors[i] + '">' + vendors[i] + '</option>';
+                }
+                $("select[id=partVendor]").append(option);
+            }
 
         } else{
             $(this).showErrorMessage(data.responseDescription);
@@ -493,6 +556,8 @@ function loadOrdersDataTable(orderListArray, refresh){
             	"\""+getValueOrEmpty(orderListArray[key].numOfTyres)+"\","+
             	"\""+getValueOrEmpty(orderListArray[key].tyrePrice)+"\","+
             	"\""+getValueOrEmpty(orderListArray[key].partCost)+"\","+
+                "\""+getValueOrEmpty(orderListArray[key].partInvoice)+"\","+
+                "\""+getValueOrEmpty(orderListArray[key].partVendor)+"\","+
             	"\""+getValueOrEmpty(orderListArray[key].partDescription)+"\","+
             	"\""+getValueOrEmpty(orderListArray[key].lubricantType)+"\","+
 				"\""+getValueOrEmpty(orderListArray[key].lubricantQuantity)+"\","+
@@ -561,6 +626,8 @@ function loadOrder(orderId){
 			$('#viewEditOrderForm #numOfTyres').val(data.order.numOfTyres);
 			$('#viewEditOrderForm #tyrePrice').val(data.order.tyrePrice);
 			$('#viewEditOrderForm #partCost').val(data.order.partCost);
+            $('#viewEditOrderForm #partInvoice').val(data.order.partInvoice);
+            $('#viewEditOrderForm #partVendor').val(data.order.partVendor);
 			$('#viewEditOrderForm #partDescription').val(data.order.partDescription);
 			$('#viewEditOrderForm #lubricantType').val(data.order.lubricantType);
 			$('#viewEditOrderForm #lubricantQuantity').val(data.order.lubricantQuantity);

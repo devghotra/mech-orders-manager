@@ -7,7 +7,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>Jass Boys Orders Manager</title>
+	<title>Mech Orders Manager</title>
 
 	<!-- Bootstrap core CSS -->
 	<link href="css/bootstrap.min.css" rel="stylesheet">
@@ -127,7 +127,7 @@
 							<fieldset>
 								<input type="text" class="col-lg-4" id="type" name="type" value="equipment" hidden>
 								<input type="text" placeholder="Equipment Number" class="col-lg-4" id="value" name="value" required>
-								<button type="submit" class="pure-button pure-button-primary" style="margin-left: 10px">Add</button>
+								<button type="submit" class="pure-button pure-button-primary" style="margin-left: 10px">Remove</button>
 							</fieldset>
 						</form>
 					</div>
@@ -147,7 +147,7 @@
 							<fieldset>
 								<input type="text" class="col-lg-4" id="type" name="type" value="mechanic" hidden>
 								<input type="text" placeholder="Equipment Number" class="col-lg-4" id="value" name="value" required>
-								<button type="submit" class="pure-button pure-button-primary" style="margin-left: 10px">Add</button>
+								<button type="submit" class="pure-button pure-button-primary" style="margin-left: 10px">Remove</button>
 							</fieldset>
 						</form>
 					</div>
@@ -167,7 +167,27 @@
 							<fieldset>
 								<input type="text" class="col-lg-4" id="type" name="type" value="tyre" hidden>
 								<input type="text" placeholder="Tyre Type" class="col-lg-4" id="value" name="value" required>
+								<button type="submit" class="pure-button pure-button-primary" style="margin-left: 10px">Remove</button>
+							</fieldset>
+						</form>
+					</div>
+					<h3>Add Part Vendor</h3>
+					<div>
+						<form class="pure-form" id="addVendorDataForm" method="POST" action="api/mech/orders/lookup">
+							<fieldset>
+								<input type="text" class="col-lg-4" id="type" name="type" value="vendor" hidden>
+								<input type="text" placeholder="Vendor Name" class="col-lg-4" id="value" name="value" required>
 								<button type="submit" class="pure-button pure-button-primary" style="margin-left: 10px">Add</button>
+							</fieldset>
+						</form>
+					</div>
+					<h3>Remove Part Vendor</h3>
+					<div>
+						<form class="pure-form" id="removeVendorDataForm" method="DELETE" action="api/mech/orders/lookup">
+							<fieldset>
+								<input type="text" class="col-lg-4" id="type" name="type" value="vendor" hidden>
+								<input type="text" placeholder="Vendor Name" class="col-lg-4" id="value" name="value" required>
+								<button type="submit" class="pure-button pure-button-primary" style="margin-left: 10px">Remove</button>
 							</fieldset>
 						</form>
 					</div>
@@ -283,6 +303,12 @@
 									<div class="form-group">
 										<label>Part Cost</label>
 										<input type="number" name="partCost" id="partCost" />
+										<label>Part Invoice</label>
+										<input type="text" name="partInvoice" id="partInvoice" />
+										<label>Part Vendor</label>
+										<select class="form-control" name="partVendor" id="partVendor" >
+											<option value="">Select</option>
+										</select>
 										<label>Part Description</label>
 										<textarea rows="2" cols="50" id="partDescription" name="partDescription" maxlength="100"></textarea>
 									</div>
@@ -401,6 +427,12 @@
 										<div class="form-group">
 											<label>Part Cost</label>
 											<input type="number" name="partCost" id="partCost" disabled/>
+											<label>Part Invoice</label>
+											<input type="text" name="partInvoice" id="partInvoice" disabled/>
+											<label>Part Vendor</label>
+											<select class="form-control" name="partVendor" id="partVendor" disabled>
+												<option value="">Select</option>
+											</select>
 											<label>Part Description</label>
 											<textarea rows="2" cols="50" id="partDescription" name="partDescription" maxlength="100" disabled></textarea>
 										</div>
@@ -521,6 +553,8 @@
 						<th>Number <br/>of Tyres</th>
 						<th>Tyre <br/>Price</th>
 						<th>Part<br/>Cost</th>
+						<th>Part<br/>Invoice</th>
+						<th>Part<br/>Vendor</th>
 						<th>Part<br/>Description</th>
 						<th>Lubricant<br/>Type</th>
 						<th>Lubricant<br/>Quantity</th>

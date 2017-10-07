@@ -48,6 +48,12 @@ public class Orders implements Serializable {
     @Column(name = "part_cost")
     private Float partCost;
 
+    @Column(name = "part_invoice")
+    private String partInvoice;
+
+    @Column(name = "part_vendor")
+    private String partVendor;
+
     @Column(name = "part_description")
     private String partDescription;
 
